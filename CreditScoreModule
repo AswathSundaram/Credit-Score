@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credit Score Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-container {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Credit Score Calculator</h1>
+        <div class="input-container">
+            <label for="income">Annual Income ($):</label>
+            <input type="number" id="income" min="0">
+        </div>
+        <div class="input-container">
+            <label for="debt">Total Debt ($):</label>
+            <input type="number" id="debt" min="0">
+        </div>
+        <div class="input-container">
+            <label for="payment-history">Payment History (0-100):</label>
+            <input type="number" id="payment-history" min="0" max="100">
+        </div>
+        <div class="input-container">
+            <label for="credit-utilization">Credit Utilization (0-100):</label>
+            <input type="number" id="credit-utilization" min="0" max="100">
+        </div>
+        <div class="input-container">
+            <label for="credit-age">Credit Age (years):</label>
+            <input type="number" id="credit-age" min="0">
+        </div>
+        <button id="calculate">Calculate</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('calculate').addEventListener('click', function() {
+            const income = parseFloat(document.getElementById('income').value);
+            const debt = parseFloat(document.getElementById('debt').value);
+            const paymentHistory = parseInt(document.getElementById('payment-history').value);
+            const creditUtilization = parseInt(document.getElementById('credit-utilization').value);
+            const creditAge = parseInt(document.getElementById('credit-age').value);
+
+            // Calculate credit score
+            let creditScore = 700; // Default score
+
+            // Negative factors
+            if (paymentHistory < 70) {
+                creditScore -= 50; // Poor payment history
+            }
+            if (creditUtilization > 30) {
+                creditScore -= 30; // High credit utilization
+            }
+            if (creditAge < 1) {
+                creditScore -= 20; // Short credit age
+            }
+            if (debt > income * 0.5) {
+                creditScore -= 100; // High debt-to-income ratio
+            }
+
+            // Positive factors
+            if (paymentHistory >= 90) {
+                creditScore += 30; // Excellent payment history
+            }
+            if (creditUtilization <= 10) {
+                creditScore += 20; // Low credit utilization
+            }
+            if (creditAge >= 5) {
+                creditScore += 40; // Long credit age
+            }
+
+            // Display result
+            document.getElementById('result').innerHTML = Your credit score is: ${creditScore};
+        });
+    </script>
+</body>
+</html>
